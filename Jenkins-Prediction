@@ -19,7 +19,7 @@ pipeline {
     }
     stage("Run prediction") {
       steps {
-        sh "./prediction.sh ${params.MODEL_VERSION}"
+        sh "./scripts/prediction.sh ${params.MODEL_VERSION}"
       }
     }
   }

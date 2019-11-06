@@ -15,13 +15,13 @@ pipeline {
     stage("Build model") {
       steps {
         sh "aws s3 cp s3://${env.S3_DATA_FOLDER}/data ."
-        sh "./build_model.sh"
+        sh "./scripts/build_model.sh"
       }
     }
     stage("Push model to S3") {
       steps {
         sh "aws s3 mv ./model_* s3://${env.S3_MODELS_FOLDER}/`ls model_*`"
-        sh "./build_model_success.sh"
+        sh "./scripts/build_model_success.sh"
       }
     }
   }
