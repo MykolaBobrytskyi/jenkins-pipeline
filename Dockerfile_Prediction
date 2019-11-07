@@ -11,5 +11,6 @@ RUN pip3 install --upgrade pip3 && \
     pip3 install awscli --upgrade --user
 
 COPY aws /.aws
+COPY ./scripts/prediction_docker_entrypoint.sh /entrypoint.sh
 
-CMD ["./scripts/prediction_docker_entrypoint.sh", "some-model-version"]
+CMD ["/entrypoint.sh", "some-model-version"]

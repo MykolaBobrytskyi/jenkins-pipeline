@@ -27,7 +27,12 @@ pipeline {
     }
     stage("Build model and push to S3") {
       steps {
-        sh "docker run -i ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER}"
+        sh "docker run -i --rm ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER} "
+      }
+    }
+    stage("Clean docker artifacts") {
+      steps {
+        sh "docker rmi ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER}"
       }
     }
   }
