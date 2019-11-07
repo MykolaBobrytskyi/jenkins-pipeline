@@ -22,12 +22,12 @@ pipeline {
     }
     stage('Build docker image') {
       steps {
-      sh "docker build --no-cache -t model-build-${env.JOB_NAME}-${env.BUILD_NUMBER} --file Dockerfile_Build ."
+      sh "docker build --no-cache -t ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER} --file Dockerfile_Build ."
       }
     }
     stage("Build model and push to S3") {
       steps {
-        sh "docker run -it model-build-${env.JOB_NAME}-${env.BUILD_NUMBER}"
+        sh "docker run -it ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER}"
       }
     }
   }
