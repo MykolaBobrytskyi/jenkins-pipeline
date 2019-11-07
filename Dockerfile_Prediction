@@ -1,0 +1,15 @@
+FROM python:3.6-slim
+
+# Prepare OS
+RUN apt-get update && \
+    apt-get install -y gcc linux-headers-amd64 && \
+    apt-get install -y git python3-pip &&  \
+    rm -rf /var/lib/apt/lists/*
+
+# Install requirements
+RUN pip3 install --upgrade pip3 && \
+    pip3 install awscli --upgrade --user
+
+COPY aws /.aws
+
+CMD ["./scripts/prediction_docker_entrypoint.sh", "some-model-version"]
