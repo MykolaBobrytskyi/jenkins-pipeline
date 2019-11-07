@@ -1,0 +1,31 @@
+pipeline {
+  agent any
+  environment {
+    BRANCH = "master"
+    GIT_CREDENTIALS = "gl-ml-training-creds"
+    S3_DATA_FOLDER = "gl-ml-training-data"
+    S3_MODELS_FOLDER = "gl-ml-training-models"
+  }
+  stages {
+    stage("SCM Checkout") {
+      steps {
+        git branch: env.BRANCH, credentialsId: env.GIT_CREDENTIALS, url: "https://github.com/MykolaBobrytskyi/jenkins-pipeline.git", poll: false
+      }
+    }
+    stage('Build docker image') {
+      steps {
+      sh "docker build --no-cache -t model-build-${env.JOB_NAME}-${env.BUILD_NUMBER} --file Dockerfile_Build ."
+      }
+    }
+    stage("Build model and push to S3") {
+      steps {
+        sh "docker run -it model-build-${env.JOB_NAME}-${env.BUILD_NUMBER}"
+      }
+    }
+  }
+  post {
+    always {
+      deleteDir()
+    }
+  }
+}
