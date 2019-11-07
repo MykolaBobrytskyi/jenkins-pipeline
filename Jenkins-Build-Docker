@@ -5,11 +5,19 @@ pipeline {
     GIT_CREDENTIALS = "gl-ml-training-creds"
     S3_DATA_FOLDER = "gl-ml-training-data"
     S3_MODELS_FOLDER = "gl-ml-training-models"
+    REGION = "eu-central-1"
+    AWS_ACCESS_KEY_ID = credentials("aws_access_key_id")
+    AWS_SECRET_ACCESS_KEY = credentials("aws_secret_access_key")
   }
   stages {
     stage("SCM Checkout") {
       steps {
         git branch: env.BRANCH, credentialsId: env.GIT_CREDENTIALS, url: "https://github.com/MykolaBobrytskyi/jenkins-pipeline.git", poll: false
+      }
+    }
+    stage('Generate AWS config') {
+      steps {
+      sh "./scripts/generate_aws_config.sh ${env.REGION} ${env.AWS_ACCESS_KEY_ID} ${env.AWS_SECRET_ACCESS_KEY}"
       }
     }
     stage('Build docker image') {
