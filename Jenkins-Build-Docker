@@ -27,7 +27,7 @@ pipeline {
     }
     stage("Build model and push to S3") {
       steps {
-        sh "docker run -it ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER}"
+        sh "docker run -i ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER}"
       }
     }
   }
