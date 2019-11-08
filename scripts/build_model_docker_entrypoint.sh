@@ -8,14 +8,17 @@ date=`date +"%Y%m%d%H%M%S"`
 
 # Generate model with timestamp
 echo "Generating model..."
-sh "aws s3 cp s3://$s3_data_folder/data ."
+aws s3 cp s3://$s3_data_folder/data .
+echo
+
 touch $date
 cat $date >> data
 mv data model_$date
 
 # Push the model to S3
 echo "Pushing model to S3..."
-sh "aws s3 mv ./model_* s3://$s3_models_folder/`ls model_*`"
+aws s3 mv ./model_* s3://$s3_models_folder/`ls model_*`
+echo
 
 # Happy cat
 echo "──────────────────────────────▓▓█───────

@@ -8,7 +8,7 @@ mkdir ./aws
 
 cat << EOF >> ./aws/config
 [default]
-region = $region
+region = $region	
 EOF
 
 cat << EOF >> ./aws/credentials
