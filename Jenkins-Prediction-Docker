@@ -32,7 +32,7 @@ pipeline {
     }
     stage("Run prediction") {
       steps {
-        sh "docker run -i --rm ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER} "
+        sh "docker run -i --rm ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER} /entrypoint.sh ${params.MODEL_VERSION}"
       }
     }
     stage("Clean docker artifacts") {
