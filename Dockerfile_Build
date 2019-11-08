@@ -7,9 +7,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install requirements
-RUN pip3 install awscli --upgrade --user
+RUN pip3 install awscli --upgrade
 
-COPY aws /.aws
+COPY aws /root/.aws
+RUN chown -R root:root /root/.aws
 COPY ./scripts/build_model_docker_entrypoint.sh /entrypoint.sh
 
 CMD ["/entrypoint.sh", "gl-ml-training-data", "gl-ml-training-models"]
