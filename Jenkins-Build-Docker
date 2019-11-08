@@ -27,7 +27,7 @@ pipeline {
     }
     stage("Build model and push to S3") {
       steps {
-        sh "docker run -i --rm ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER} "
+        sh "docker run -i --rm ${env.JOB_NAME.toLowerCase()}-${env.BUILD_NUMBER} /entrypoint.sh ${env.S3_DATA_FOLDER} ${env.S3_MODELS_FOLDER}"
       }
     }
     stage("Clean docker artifacts") {
